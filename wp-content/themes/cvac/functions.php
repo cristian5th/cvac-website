@@ -1,5 +1,15 @@
 <?php
-// Custom Function to Include
+// Load style.css
+add_action( 'wp_enqueue_scripts', 'cvac_enqueue_styles' );
+
+function cvac_enqueue_styles() {
+	wp_enqueue_style( 
+		'cvac-style', 
+		get_stylesheet_uri()
+	);
+}
+
+// Add favicon to the site pages
 function my_favicon_link() {
     echo '<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />' . "\n";
 }
