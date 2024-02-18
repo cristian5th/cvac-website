@@ -12,6 +12,7 @@ Tags:         one-column, custom-colors, custom-menu, custom-logo, editor-style,
 Text Domain:  twentytwentyfourchild
 */
 
+/* Center team member figure */
 .wp-block-column.is-team-figure {
     text-align: center;
 }
