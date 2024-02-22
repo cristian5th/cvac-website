@@ -16,3 +16,8 @@ Text Domain:  twentytwentyfourchild
 .wp-block-column.is-team-figure {
     text-align: center;
 }
+
+/* Center home page figure */
+.wp-block-group.is-home-figure {
+    text-align: center;
+}
