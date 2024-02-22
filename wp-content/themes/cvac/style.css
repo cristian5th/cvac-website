@@ -21,3 +21,28 @@ Text Domain:  twentytwentyfourchild
 .wp-block-group.is-home-figure {
     text-align: center;
 }
+
+/* Table licences formating */
+.is-table-licences th {
+    background-color: blue;
+    color: white;
+    border-color: black;
+}
+
+.is-table-licences td:has(mark.has-inline-color) {
+    background-color: darkblue;
+    color: white;
+    border-color: black;
+}
+
+.is-table-licences-ffvelo th {
+    background-color: red;
+    color: white;
+    border-color: black;
+}
+
+.is-table-licences-ffvelo td:has(mark.has-inline-color) {
+    background-color: red;
+    color: white;
+    border-color: black;
+}
