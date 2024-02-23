@@ -12,6 +12,11 @@ Tags:         one-column, custom-colors, custom-menu, custom-logo, editor-style,
 Text Domain:  twentytwentyfourchild
 */
 
+/* Bugfix padding of ul.wp-block-navigation (has-background) */
+ul.wp-block-navigation {
+    padding: initial;
+}
+
 /* Center team member figure */
 .wp-block-column.is-team-figure {
     text-align: center;
