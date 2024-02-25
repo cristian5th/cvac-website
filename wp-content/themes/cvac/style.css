@@ -51,3 +51,8 @@ ul.wp-block-navigation {
     color: white;
     border-color: black;
 }
+
+/* Recaptcha anchor visibility */
+.grecaptcha-badge {
+    display: none;
+}
