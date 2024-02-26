@@ -18,7 +18,8 @@ ul.wp-block-navigation {
 }
 
 /* Center team member figure */
-.wp-block-column.is-team-figure {
+.wp-block-column.is-team-figure,
+.wp-block-group.is-team-figure {
     text-align: center;
 }
 
