@@ -26,14 +26,14 @@ add_theme_support( 'event-manager-templates' );
 
 // WP Event Manager Hide Events From WooCommerce Product Page
 add_action( 'woocommerce_product_query', 'ts_custom_pre_get_posts_query' );
- 
+
 function ts_custom_pre_get_posts_query( $q ) {
-    $tax_query = (array) $q-&gt;get( 'tax_query' );
+    $tax_query = (array) $q->get( 'tax_query' );
     $tax_query[] = array(
-      'taxonomy' =&gt; 'product_type',
-      'field' =&gt; 'slug',
-      'terms' =&gt; array( 'event_package','event_ticket'), // Don't display products with event ticket type on the shop page.
-      'operator' =&gt; 'NOT IN'
+        'taxonomy' => 'product_type',
+        'field' => 'slug',
+        'terms' => array( 'event_package','event_ticket'), // Don't display products with event ticket type on the shop page.
+        'operator' => 'NOT IN'
     );
-    $q-&gt;set( 'tax_query', $tax_query );
+    $q->set( 'tax_query', $tax_query );
 }
