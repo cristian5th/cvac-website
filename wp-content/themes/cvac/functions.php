@@ -26,7 +26,6 @@ add_theme_support( 'event-manager-templates' );
 
 // WP Event Manager Hide Events From WooCommerce Product Page
 add_action( 'woocommerce_product_query', 'ts_custom_pre_get_posts_query' );
-
 function ts_custom_pre_get_posts_query( $q ) {
     $tax_query = (array) $q->get( 'tax_query' );
     $tax_query[] = array(
@@ -37,3 +36,12 @@ function ts_custom_pre_get_posts_query( $q ) {
     );
     $q->set( 'tax_query', $tax_query );
 }
+
+// WP WooCommerce Store Available Only To Logged-in Users
+function my_redirect_non_logged_in_users() {
+    if ( !is_user_logged_in() && ( is_woocommerce() /*|| is_cart() || is_checkout()*/ ) ) {
+        wp_redirect( get_permalink( get_option('woocommerce_myaccount_page_id') ) );
+        exit;
+    }
+}
+add_action( 'template_redirect', 'my_redirect_non_logged_in_users' );
