@@ -57,3 +57,8 @@ ul.wp-block-navigation {
 .grecaptcha-badge {
     display: none;
 }
+
+/* Hide gift card banner at checkout */
+.ywgc_have_code{
+    display: none;
+  }
