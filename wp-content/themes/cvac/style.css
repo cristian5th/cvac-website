@@ -58,7 +58,7 @@ ul.wp-block-navigation {
     display: none;
 }
 
-/* Hide gift card banner at checkout */
+/* Hide gift card banner */
 .ywgc_have_code{
     display: none;
-  }
+}
