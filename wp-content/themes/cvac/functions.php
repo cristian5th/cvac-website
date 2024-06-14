@@ -69,3 +69,7 @@ function my_woo_store_vacation_notice() {
 }
 add_action( 'woocommerce_before_shop_loop', 'my_woo_store_vacation_notice', 5 );
 add_action( 'woocommerce_before_single_product', 'my_woo_store_vacation_notice', 5 );
+
+// Disable new user and password change e-mail notification to admin
+add_filter( 'wp_new_user_notification_email_admin', '__return_false' );
+add_filter( 'send_password_change_email', '__return_false' );
