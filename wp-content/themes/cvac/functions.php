@@ -72,4 +72,9 @@ add_action( 'woocommerce_before_single_product', 'my_woo_store_vacation_notice',
 
 // Disable new user and password change e-mail notification to admin
 add_filter( 'wp_new_user_notification_email_admin', '__return_false' );
-add_filter( 'send_password_change_email', '__return_false' );
+remove_action( 'after_password_reset', 'wp_password_change_notification' );
+// add_filter( 'wp_password_change_notification_email', 'wpdocs_stop_email' );
+// function wpdocs_stop_email( $email ) {
+//     $email['to'] = ''; //empty the TO: part, will fail to send
+//     return $email;
+// }
