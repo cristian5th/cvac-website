@@ -1,8 +1,7 @@
 <?php
 // Load style.css
-add_action( 'wp_enqueue_scripts', 'cvac_enqueue_styles' );
-
-function cvac_enqueue_styles() {
+add_action( 'wp_enqueue_scripts', 'cvac_enqueue_scripts' );
+function cvac_enqueue_scripts() {
     wp_enqueue_style( 
         'cvac-style', 
         get_stylesheet_uri()
@@ -10,33 +9,34 @@ function cvac_enqueue_styles() {
 }
 
 // Add favicon to the site pages
-function my_favicon_link() {
+add_action( 'wp_head', 'cvac_favicon_link' );
+function cvac_favicon_link() {
     echo '<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />' . "\n";
 }
-add_action( 'wp_head', 'my_favicon_link' );
 
 // Change the sender name and address in outgoing Wordpress e-mail
-add_filter( 'wp_mail_from', 'custom_wp_mail_from' );
-add_filter( 'wp_mail_from_name', 'custom_wp_mail_from_name' );
-function custom_wp_mail_from( $original_email_address ) {
+add_filter( 'wp_mail_from', 'cvac_wp_mail_from' );
+add_filter( 'wp_mail_from_name', 'cvac_wp_mail_from_name' );
+function cvac_wp_mail_from( $original_email_address ) {
     return 'no-reply@cvac.fr';
 }
-function custom_wp_mail_from_name( $original_email_from ) {
+function cvac_wp_mail_from_name( $original_email_from ) {
     return 'CVAC';
 }
 
-// WP WooCommerce Enabling Full Template Support
-function cvac_add_woocommerce_support() {
+// Enabling full template support
+add_action( 'after_setup_theme', 'cvac_theme_setup' );
+function cvac_theme_setup() {
+    // WP WooCommerce
     add_theme_support( 'woocommerce' );
+
+    // WP Event Manager
+    add_theme_support( 'event-manager-templates' );
 }
-add_action( 'after_setup_theme', 'cvac_add_woocommerce_support' );
 
-// WP Event Manager Enabling Full Template Support
-add_theme_support( 'event-manager-templates' );
-
-// WP Event Manager Hide Events From WooCommerce Product Page
-add_action( 'woocommerce_product_query', 'ts_custom_pre_get_posts_query' );
-function ts_custom_pre_get_posts_query( $q ) {
+// WP Event Manager hide events from WooCommerce product page
+add_action( 'woocommerce_product_query', 'cvac_pre_get_posts_query' );
+function cvac_pre_get_posts_query( $q ) {
     $tax_query = (array) $q->get( 'tax_query' );
     $tax_query[] = array(
         'taxonomy' => 'product_type',
@@ -47,17 +47,19 @@ function ts_custom_pre_get_posts_query( $q ) {
     $q->set( 'tax_query', $tax_query );
 }
 
-// WP WooCommerce Store Available Only To Logged-in Users
-function my_redirect_non_logged_in_users() {
+// WP WooCommerce store available only to logged-in users
+add_action( 'template_redirect', 'cvac_redirect_non_logged_in_users' );
+function cvac_redirect_non_logged_in_users() {
     if ( !is_user_logged_in() && ( is_woocommerce() /*|| is_cart() || is_checkout()*/ ) ) {
-        wp_redirect( get_permalink( get_option('woocommerce_myaccount_page_id') ) );
+        wp_redirect( get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ) );
         exit;
     }
 }
-add_action( 'template_redirect', 'my_redirect_non_logged_in_users' );
 
 // WP WooCommerce add vacation notice at Shop Loop and Single Product pages
-function my_woo_store_vacation_notice() {
+add_action( 'woocommerce_before_shop_loop', 'cvac_woo_store_vacation_notice', 5 );
+add_action( 'woocommerce_before_single_product', 'cvac_woo_store_vacation_notice', 5 );
+function cvac_woo_store_vacation_notice() {
     $vacation_mode = woo_store_vacation()->service( 'options' )->get( 'vacation_mode', 'no' );
     if ($vacation_mode == 'yes') {
         $notice = woo_store_vacation()->service( 'options' )->get( 'vacation_notice' );
@@ -65,7 +67,7 @@ function my_woo_store_vacation_notice() {
         $end_date_datetime = date_create( $end_date );
         $end_date_format = date_format( $end_date_datetime, "d/m/Y" );
         
-        // Bail early, if the notice is empty.
+        // Use this vacation notice only if the site notice is empty
         if ( empty( $notice ) && function_exists( 'wc_print_notice' ) ) {
             $notice = "Le magasin est fermé jusqu'au $end_date_format. Nous vous remercions de votre patience et vous prions de nous excuser pour ce désagrément.";
 
@@ -77,8 +79,6 @@ function my_woo_store_vacation_notice() {
 
     }
 }
-add_action( 'woocommerce_before_shop_loop', 'my_woo_store_vacation_notice', 5 );
-add_action( 'woocommerce_before_single_product', 'my_woo_store_vacation_notice', 5 );
 
 // Disable new user and password change e-mail notification to admin
 add_filter( 'wp_new_user_notification_email_admin', '__return_false' );
