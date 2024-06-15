@@ -15,6 +15,16 @@ function my_favicon_link() {
 }
 add_action( 'wp_head', 'my_favicon_link' );
 
+// Change the sender name and address in outgoing Wordpress e-mail
+add_filter( 'wp_mail_from', 'custom_wp_mail_from' );
+add_filter( 'wp_mail_from_name', 'custom_wp_mail_from_name' );
+function custom_wp_mail_from( $original_email_address ) {
+    return 'no-reply@cvac.fr';
+}
+function custom_wp_mail_from_name( $original_email_from ) {
+    return 'CVAC';
+}
+
 // WP WooCommerce Enabling Full Template Support
 function cvac_add_woocommerce_support() {
     add_theme_support( 'woocommerce' );
